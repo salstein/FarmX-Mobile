@@ -5,5 +5,5 @@ class Env {
   static const String recommendation_url =
       "https://croprecommendation-zc6ytsujkq-uw.a.run.app/";
 
-  static const String gcp_key = "AIzaSyAWRghVw_DAzqKW5SJDsLG9AMUidb0pr-0";
+  static const String gcp_key = "API-Key";
 }
