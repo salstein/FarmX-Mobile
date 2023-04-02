@@ -1,6 +1,6 @@
-# agrotech_hackat
+# FarmX Mobile App
 
-A new Flutter project.
+Developed with Flutter and Getx State-Management system.
 
 ## Getting Started
 
