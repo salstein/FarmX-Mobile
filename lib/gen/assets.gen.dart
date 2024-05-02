@@ -130,6 +130,7 @@ class $AssetsSvgsGen {
 class Assets {
   Assets._();
 
+  static const String androidManifest = 'assets/AndroidManifest.xml';
   static const String analysis = 'assets/analysis.json';
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const String iot = 'assets/iot.json';
@@ -138,7 +139,8 @@ class Assets {
   static const $AssetsSvgsGen svgs = $AssetsSvgsGen();
 
   /// List of all assets
-  List<dynamic> get values => [analysis, iot, logo, plantRecommendation];
+  static List<dynamic> get values =>
+      [androidManifest, analysis, iot, logo, plantRecommendation];
 }
 
 class AssetGenImage {
@@ -199,7 +201,16 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider() => AssetImage(_assetName);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
+  }
 
   String get path => _assetName;
 

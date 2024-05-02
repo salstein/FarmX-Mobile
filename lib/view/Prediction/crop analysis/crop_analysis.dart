@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:agrotech_hackat/models/analyse_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -8,7 +9,8 @@ import '../../../constants/colors.dart';
 import 'controller.dart';
 
 class CropAnalysis extends StatelessWidget {
-  const CropAnalysis({Key? key}) : super(key: key);
+  const CropAnalysis({Key? key, required this.data}) : super(key: key);
+  final AnalyseResponse data;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class CropAnalysis extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                         children: [
                           TextSpan(
-                              text: ": ${c.resp.value.mainData!.label}",
+                              text: ": ${data.mainData!.label}",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!
@@ -71,7 +73,7 @@ class CropAnalysis extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                         children: [
                           TextSpan(
-                              text: ": ${c.resp.value.mainData!.confidence}",
+                              text: ": ${data.mainData!.confidence}",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!
@@ -89,19 +91,19 @@ class CropAnalysis extends StatelessWidget {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600)),
                 SizedBox(height: 8.h),
-                Text(c.resp.value.moreDetails!.about ?? "",
+                Text(data.moreDetails!.about ?? "",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: black,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400)),
                 SizedBox(height: 10.h),
-                Text(c.resp.value.moreDetails!.extraTopic ?? "More Details",
+                Text(data.moreDetails!.extraTopic ?? "More Details",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: black,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600)),
                 SizedBox(height: 8.h),
-                Text(c.resp.value.moreDetails!.topicDescription ?? "",
+                Text(data.moreDetails!.topicDescription ?? "",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: black,
                         fontSize: 14.sp,

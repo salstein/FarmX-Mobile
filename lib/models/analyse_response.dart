@@ -41,11 +41,11 @@ class MainData {
     this.label,
   });
 
-  double? confidence;
+  dynamic? confidence;
   String? label;
 
   factory MainData.fromJson(Map<String, dynamic> json) => MainData(
-        confidence: json["confidence"]?.toDouble(),
+        confidence: json["confidence"],
         label: json["label"],
       );
 

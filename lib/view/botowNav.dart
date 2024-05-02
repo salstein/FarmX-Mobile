@@ -1,5 +1,6 @@
 import 'package:agrotech_hackat/constants/colors.dart';
 import 'package:agrotech_hackat/view/dashboard.dart';
+import 'package:agrotech_hackat/view/farmxAI/farmx_ai.dart';
 import 'package:agrotech_hackat/view/product_feed.dart';
 import 'package:agrotech_hackat/view/scan.dart';
 import "package:flutter/material.dart";
@@ -56,8 +57,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: const <Widget>[
             Dashboard(), Scan(), //Orders(),
             Feed(),
-            WebViewPage(
-                title: "Knowledge base", uri: "https://farmxwiki.netlify.app")
+            KnowledgeBase()
           ],
         ),
       ),
@@ -122,11 +122,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
             ),
           ),
           BottomNavigationBarItem(
-              label: "Knowledgebase",
+              label: "FarmxAI",
               icon: Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Icon(
-                    Icons.book,
+                    Icons.lightbulb,
                     color: _currentIndex == 3 ? black : grey,
                   ))),
         ],

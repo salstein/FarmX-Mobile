@@ -21,11 +21,11 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp(const CloudMallApp());
+  runApp(const FarmxApp());
 }
 
-class CloudMallApp extends StatelessWidget {
-  const CloudMallApp({Key? key}) : super(key: key);
+class FarmxApp extends StatelessWidget {
+  const FarmxApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class CloudMallApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'FarmX',
             theme: ThemeData(
+              useMaterial3: false,
               //primarySwatch:MaterialColor (,mallBlue),
               colorScheme: ColorScheme.fromSwatch().copyWith(
                 primary: plantDark,

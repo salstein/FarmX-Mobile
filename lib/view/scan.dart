@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
 import 'Prediction/crop analysis/crop_analysis_form.dart';
 import 'Prediction/crop recomendation/crop_recomendation_page.dart';
 

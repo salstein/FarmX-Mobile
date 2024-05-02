@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../constants/colors.dart';
 
 class WebViewPage extends StatefulWidget {
   const WebViewPage({Key? key, required this.title, required this.uri})

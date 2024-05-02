@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:agrotech_hackat/models/data_dump_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -20,8 +19,8 @@ class ClientsRepository extends GetxController {
   Dio _getDio() {
     Dio dio = Dio(
       BaseOptions(
-        connectTimeout: 30000,
-        receiveTimeout: 30000,
+        connectTimeout: const Duration(milliseconds: 60000),
+        receiveTimeout: const Duration(milliseconds: 60000),
         headers: {
           // "authorization": "Bearer $token",
         },
@@ -48,16 +47,16 @@ class ClientsRepository extends GetxController {
       return _response;
     } on DioError catch (e) {
       EasyLoading.dismiss();
-      if (e.type == DioErrorType.response) {
+      if (e.type == DioExceptionType.badResponse) {
         return DataDumpResponse();
       }
-      if (e.type == DioErrorType.connectTimeout) {
+      if (e.type == DioExceptionType.connectionTimeout) {
         return DataDumpResponse();
       }
-      if (e.type == DioErrorType.receiveTimeout) {
+      if (e.type == DioExceptionType.receiveTimeout) {
         return DataDumpResponse();
       }
-      if (e.type == DioErrorType.other) {
+      if (e.type == DioExceptionType.unknown) {
         return DataDumpResponse();
       }
       return DataDumpResponse();
@@ -71,16 +70,16 @@ class ClientsRepository extends GetxController {
       return response;
     } on DioError catch (e) {
       EasyLoading.dismiss();
-      if (e.type == DioErrorType.response) {
+      if (e.type == DioExceptionType.badResponse) {
         return EasyPredictResponse(status: false);
       }
-      if (e.type == DioErrorType.connectTimeout) {
+      if (e.type == DioExceptionType.connectionTimeout) {
         return EasyPredictResponse(status: false);
       }
-      if (e.type == DioErrorType.receiveTimeout) {
+      if (e.type == DioExceptionType.receiveTimeout) {
         return EasyPredictResponse(status: false);
       }
-      if (e.type == DioErrorType.other) {
+      if (e.type == DioExceptionType.unknown) {
         return EasyPredictResponse(status: false);
       }
       return EasyPredictResponse(status: false);

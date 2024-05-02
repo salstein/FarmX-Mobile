@@ -13,7 +13,7 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://crop-recommendation-gzhmfjnevq-uc.a.run.app/';
+    baseUrl ??= 'https://croprecommender-q5u5jthoqq-ue.a.run.app/';
   }
 
   final Dio _dio;
@@ -22,10 +22,10 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<PredictResponse> predictRequest(
-    files,
-    predictionBody,
+    File files,
+    dynamic predictionBody,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -49,17 +49,21 @@ class _ApiClient implements ApiClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = PredictResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<AnalyseResponse> analysRequest(
-    image,
-    predictionBody,
+    File image,
+    dynamic predictionBody,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -83,14 +87,19 @@ class _ApiClient implements ApiClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = AnalyseResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<DataDumpResponse> getDataDump(predictionBody) async {
-    const _extra = <String, dynamic>{};
+  Future<DataDumpResponse> getDataDump(
+      Map<String, dynamic> predictionBody) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -107,14 +116,19 @@ class _ApiClient implements ApiClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = DataDumpResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<EasyPredictResponse> getEasyPredictData(predictionBody) async {
-    const _extra = <String, dynamic>{};
+  Future<EasyPredictResponse> getEasyPredictData(
+      Map<String, dynamic> predictionBody) async {
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -131,7 +145,11 @@ class _ApiClient implements ApiClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = EasyPredictResponse.fromJson(_result.data!);
     return value;
   }
@@ -147,5 +165,22 @@ class _ApiClient implements ApiClient {
       }
     }
     return requestOptions;
+  }
+
+  String _combineBaseUrls(
+    String dioBaseUrl,
+    String? baseUrl,
+  ) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }

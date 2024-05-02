@@ -22,8 +22,8 @@ class ClientsRepository extends GetxController {
   Dio _getDio() {
     Dio dio = Dio(
       BaseOptions(
-        connectTimeout: 60000,
-        receiveTimeout: 60000,
+        connectTimeout: const Duration(milliseconds: 60000),
+        receiveTimeout: const Duration(milliseconds: 60000),
         headers: {
           // "authorization": "Bearer $token",
         },
@@ -47,17 +47,18 @@ class ClientsRepository extends GetxController {
     try {
       // final _response = await _apiClient.analysRequest(file, userDetails);
 
-      var headers = userDetails;
+      userDetails;
       var request = http.MultipartRequest('POST',
-          Uri.parse('https://crop-analysis-gzhmfjnevq-uc.a.run.app/analyze'));
+          Uri.parse('https://farmxgemdoc-q5u5jthoqq-ue.a.run.app/analyze'));
       request.files.add(await http.MultipartFile.fromPath('image', file.path));
       request.fields.addAll(userDetails);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        return AnalyseResponse.fromJson(
-            jsonDecode(await response.stream.bytesToString()));
+        final result = await response.stream.bytesToString();
+        print(result);
+        return AnalyseResponse.fromJson(jsonDecode(result));
       } else {
         print(response.reasonPhrase);
         EasyLoading.showError(
@@ -81,16 +82,16 @@ class ClientsRepository extends GetxController {
       return _response;
     } on DioError catch (e) {
       EasyLoading.dismiss();
-      if (e.type == DioErrorType.response) {
+      if (e.type == DioExceptionType.badResponse) {
         return PredictResponse();
       }
-      if (e.type == DioErrorType.connectTimeout) {
+      if (e.type == DioExceptionType.connectionTimeout) {
         return PredictResponse();
       }
       if (e.type == DioErrorType.receiveTimeout) {
         return PredictResponse();
       }
-      if (e.type == DioErrorType.other) {
+      if (e.type == DioExceptionType.unknown) {
         return PredictResponse();
       }
       return PredictResponse();

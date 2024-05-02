@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'dart:io';
@@ -22,87 +23,94 @@ class CropAnalysisForm extends StatelessWidget {
                       fontWeight: FontWeight.w600))),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20.h),
-                InkWell(
-                  onTap: () {
-                    _showImageSelectionDialog(context);
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.all(Radius.circular(10.r))),
-                    height: 300,
-                    width: 300,
-                    child: c.selectedImage.value.isEmpty
-                        ? const Text('No image selected.')
-                        : Image.file(File(c.selectedImage.value)),
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text("Threshold",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: black,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600)),
-                ),
-                Slider(
-                  value: c.value,
-                  min: 0.0,
-                  max: 1.0,
-                  label: c.value.toString(),
-                  divisions: 10,
-                  onChanged: (double newValue) {
-                    c.updateValue(newValue);
-                  },
-                ),
-                SizedBox(height: 20.h),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text("Language",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: black,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600)),
-                ),
-                SizedBox(height: 10.h),
-                GestureDetector(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20.h),
+                  InkWell(
                     onTap: () {
-                      Get.bottomSheet(SelectLanguage());
+                      _showImageSelectionDialog(context);
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          border: Border.all(color: grey),
+                          border: Border.all(),
                           borderRadius:
                               BorderRadius.all(Radius.circular(10.r))),
-                      height: 50.h,
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Text(c.selectedLang.value.name!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                      color: black,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600)),
-                          const Spacer(),
-                          const Icon(Icons.arrow_drop_down)
-                        ],
-                      ),
-                    )),
-                SizedBox(height: 70.h),
-                button("Proceed to Analyse", () {
-                  c.fetchAnalysis();
-                }, white, mainGreen, mainGreen, 50.h, double.infinity)
-              ],
+                      height: 200,
+                      width: 200,
+                      child: c.selectedImage.value.isEmpty
+                          ? const Text('No image selected.')
+                          : Image.file(File(c.selectedImage.value)),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Threshold",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600)),
+                  ),
+                  Slider(
+                    value: c.value,
+                    min: 0.0,
+                    max: 1.0,
+                    label: c.value.toString(),
+                    divisions: 10,
+                    onChanged: (double newValue) {
+                      c.updateValue(newValue);
+                    },
+                  ),
+                  SizedBox(height: 20.h),
+                  const Align(
+                      alignment: Alignment.topLeft,
+                      child: ToggleButtonWidget()),
+                  SizedBox(height: 20.h),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Language",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600)),
+                  ),
+                  SizedBox(height: 10.h),
+                  GestureDetector(
+                      onTap: () {
+                        Get.bottomSheet(const SelectLanguage());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: grey),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.r))),
+                        height: 50.h,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Text(c.selectedLang.value.name!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: black,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600)),
+                            const Spacer(),
+                            const Icon(Icons.arrow_drop_down)
+                          ],
+                        ),
+                      )),
+                  SizedBox(height: 70.h),
+                  button("Proceed to Analyse", () {
+                    c.fetchAnalysis();
+                  }, white, mainGreen, mainGreen, 50.h, double.infinity)
+                ],
+              ),
             ),
           ));
     });
@@ -249,5 +257,38 @@ class SelectLanguage extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class ToggleButtonWidget extends StatefulWidget {
+  const ToggleButtonWidget({Key? key}) : super(key: key);
+
+  @override
+  _ToggleButtonWidgetState createState() => _ToggleButtonWidgetState();
+}
+
+class _ToggleButtonWidgetState extends State<ToggleButtonWidget> {
+  bool _isToggled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    CropAnalysisController c = Get.put(CropAnalysisController());
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text('Use Gemini:',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: black, fontSize: 14.sp, fontWeight: FontWeight.w600)),
+        Switch(
+          value: _isToggled,
+          onChanged: (value) {
+            c.updateUseGemini(_isToggled ? 0 : 1);
+            setState(() {
+              _isToggled = value;
+            });
+          },
+        ),
+      ],
+    );
   }
 }

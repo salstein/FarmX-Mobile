@@ -4,7 +4,6 @@ import 'package:agrotech_hackat/view/sign_in.dart';
 import 'package:agrotech_hackat/view/splash_content.dart';
 import 'package:agrotech_hackat/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../size_config.dart';
 import '../widgets/animated_contaner.dart';

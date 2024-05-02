@@ -11,6 +11,7 @@ class CropAnalysisController extends GetxController {
   RxString selectedImage = "".obs;
   var resp = AnalyseResponse().obs;
   RxInt selectedIndex = 0.obs;
+  int useGemini = 0;
   updateIndex(int index) {
     selectedIndex.value = index;
     update();
@@ -105,13 +106,14 @@ class CropAnalysisController extends GetxController {
       final data = await rep.fetchAnalysisData(File(selectedImage.value), {
         'threshold': value.toString(),
         'usecase': 'crop_disease',
-        'language': selectedLang.value.code!
+        'language': selectedLang.value.code!,
+        'use_gemini': useGemini.toString()
       });
 
       resp.value = data;
       update();
-      if (resp.value.mainData != null) {
-        Get.to(() => const CropAnalysis());
+      if (data.mainData != null) {
+        Get.to(() => CropAnalysis(data: data));
       }
       //print(data.toJson());
       EasyLoading.dismiss();
@@ -119,6 +121,10 @@ class CropAnalysisController extends GetxController {
       EasyLoading.showError('Please select an image');
     }
     // Get.to(() => const PredictionsPage());
+  }
+
+  updateUseGemini(int value) {
+    useGemini = value;
   }
 }
 
@@ -133,9 +139,9 @@ class Language {
       );
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['code'] = code;
     return data;
   }
 }
